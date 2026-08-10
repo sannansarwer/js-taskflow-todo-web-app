@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="container mt-5">
+
+        <h1 class="fw-bold">TaskFlow - To Do List</h1>
+        <p class="lead">A clean, easy-to-use to-do list app to organize your daily tasks, set priorities, and track what's done.</p>
+
+    </div>
+
+    <div class="d-flex justify-content-center px-3">
+
+        <div class="card">
+
+            <div class="card-header custom-header">
+
+                <!-- Left -->
+                <div class="header-left">
+
+                    <h4 class="mb-0 fw-bold badge rounded-pill text-bg-primary fst-italic">TaskFlow.</h4>
+                    <small class="text-muted">
+                        Stay organized. Stay productive.
+                    </small>
+
+                </div>
+
+
+                <!-- Right -->
+                <div class="dropdown">
+                    <button class="btn settings-btn"
+                            data-bs-toggle="dropdown">
+                        <i class="bi bi-gear-fill"></i>
+                    </button>
+
+                    <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0">
+
+                        <li class="dropdown-header">Appearance</li>
+
+                        <li>
+                            <a class="dropdown-item" href="#" id="darkMode">
+                                <i class="bi bi-moon-stars me-2"></i>
+                                Dark Mode
+                            </a>
+                        </li>
+
+                        <li><hr class="dropdown-divider"></li>
+
+                        <li class="dropdown-header">Tasks</li>
+
+                        <li>
+                            <a class="dropdown-item" href="#" id="importTaskBtn">
+                                <i class="bi bi-upload me-2"></i>
+                                Import Tasks
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" href="#" id="exportTaskBtn">
+                                <i class="bi bi-download me-2"></i>
+                                Export Tasks
+                            </a>
+                        </li>
+
+                        <li><hr class="dropdown-divider"></li>
+
+                        <li>
+                            <a class="dropdown-item text-danger clear-data" href="#" id="clearAllBtn">
+                                <i class="bi bi-trash3 me-2"></i>
+                                Clear All Data
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="row g-3">
+
+                    <!-- Total Tasks -->
+                    <div class="col-md-4">
+                        <div class="stats-card total-card">
+                            <div class="icon">
+                                <i class="bi bi-list-task"></i>
+                            </div>
+
+                            <h6>Total Tasks</h6>
+                            <h2 id="totalTasks">12</h2>
+                        </div>
+                    </div>
+
+                    <!-- Completed -->
+                    <div class="col-md-4">
+                        <div class="stats-card completed-card">
+                            <div class="icon">
+                                <i class="bi bi-check-circle-fill"></i>
+                            </div>
+
+                            <h6>Completed</h6>
+                            <h2 id="completedTasks">7</h2>
+                        </div>
+                    </div>
+
+                    <!-- Pending -->
+                    <div class="col-md-4">
+                        <div class="stats-card pending-card">
+                            <div class="icon">
+                                 <i class="bi bi-pencil-square"></i>
+                            </div>
+
+                            <h6>Pending</h6>
+                            <h2 id="pendingTasks">5</h2>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Add New Task Button -->
+
+                <div class="align-items-center mt-4">
+
+                    
+                    <div class="col-md-3">
+                        <button class="btn add-task-btn w-100 fw-bold" type="button" data-bs-toggle="modal" data-bs-target="#addTaskForm" id="openTaskModalBtn">
+                            <i class="bi bi-plus-lg me-2"></i>
+                            Add New Task
+                        </button>
+                    </div>
+
+                </div>
+
+
+                <!-- Task Filters -->
+
+                <div class="task-toolbar mt-4">
+
+                    <!-- Left -->
+                    <div class="task-filters">
+
+                        <button class="filter-btn active" id="allFilterBtn">
+                            <i class="bi bi-list-task"></i>
+                            All
+                            <span>12</span>
+                        </button>
+
+                        <button class="filter-btn" id="pendingFilterBtn">
+                            <i class="bi bi-hourglass-split"></i>
+                            Pending
+                            <span>5</span>
+                        </button>
+
+                        <button class="filter-btn" id="completedFilterBtn">
+                            <i class="bi bi-check-circle-fill"></i>
+                            Completed
+                            <span>7</span>
+                        </button>
+
+                    </div>
+
+                    <!-- Right -->
+                    <div class="dropdown">
+
+                        <button class="btn sort-btn dropdown-toggle"
+                                data-bs-toggle="dropdown">
+                            <i class="bi bi-sort-down me-2"></i>
+                            Sort By
+                        </button>
+
+                        <ul class="dropdown-menu dropdown-menu-end">
+
+                            <li><a class="dropdown-item" href="#" id="sortDateBtn">Date Added</a></li>
+                            <li><a class="dropdown-item" href="#" id="sortPriorityBtn">Priority</a></li>
+                            <li><a class="dropdown-item" href="#" id="sortDuedateBtn">Due Date</a></li>
+                            <li><a class="dropdown-item" href="#" id="sortAlphaBtn">Alphabetically</a></li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+
+                <!-- Table -->
+                <div class="table-responsive mt-4">
+
+                    <table class="table table-hover align-middle task-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th width="45">
+                                    <input class="form-check-input" type="checkbox" id="selectAllTasks">
+                                </th>
+
+                                <th>#</th>
+
+                                <th>Task</th>
+
+                                <th>Priority</th>
+
+                                <th>Added Date</th>
+
+                                <th>Due Date</th>
+
+                                <th class="text-center">Actions</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="taskList">
+
+                            
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+                
+
+            </div>
+            
+        </div>
+
+    </div>
+
+
+
+    <!-- Modal For New Added Task -->
+    <div class="modal fade" id="addTaskForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog custom-modal">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="mb-0 fw-bold badge rounded-pill text-bg-primary fst-italic">TaskFlow.</h4>
+                    
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body  px-4 py-3">
+
+                    <div class="text-center">
+                        <label class="small fst-italic text-primary">"Quickly add a task and manage your day efficiently."</label>
+                    </div>
+
+                     <form id="taskForm">
+
+                        <!-- Task Title -->
+                        <div class="mb-4 mt-4">
+
+                            <label class="form-label fw-bold">
+                                Task Title
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control form-control-lg custom-input"
+                                placeholder="Enter Your Task Title ..."
+                                id="taskTitle">
+
+                        </div>
+
+                        <div class="mb-4 mt-4">
+
+                            <label class="form-label fw-bold">
+                                Task Description
+                            </label>
+
+                            <div class="form-floating">
+                                <textarea class="form-control custom-input" placeholder="Leave a comment here" id="taskDescription"></textarea>
+                                <label for="taskDescription">Add notes or important details about this task.</label>
+                            </div>
+
+                        </div>
+
+                        <!-- Priority -->
+                        <div class="mb-4 mt-2">
+
+                            <label class="form-label fw-semibold">
+                                Priority
+                            </label>
+
+                            <div class="text-center" id="priorityGroup">
+
+                                <div class="form-check form-check-inline priority">
+                                    <input class="form-check-input" type="radio" name="priority" id="high" value="high" checked>
+                                    <label class="form-check-label" for="high">
+                                        <span class="badge rounded-pill text-bg-success">HIGH</span>
+                                    </label>
+                                </div>
+
+                                <div class="form-check form-check-inline priority">
+                                    <input class="form-check-input" type="radio" name="priority" id="low" value="low">
+                                    <label class="form-check-label" for="low">
+                                        <span class="badge rounded-pill text-bg-secondary">LOW</span>
+                                    </label>
+                                </div>
+
+                                <div class="form-check form-check-inline priority">
+                                    <input class="form-check-input" type="radio" name="priority" id="urgent" value="urgent">
+                                    <label class="form-check-label" for="urgent">
+                                        <span class="badge rounded-pill text-bg-danger">URGENT</span>
+                                    </label>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Dates -->
+                        <div class="row mt-2">
+
+                            <div class="col-md-6 mb-4">
+
+                                <label class="form-label fw-semibold">
+                                    Date Added
+                                </label>
+
+                                <input
+                                    type="date"
+                                    class="form-control custom-input"
+                                    id="addedDate">
+
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+
+                                <label class="form-label fw-semibold">
+                                    Due Date
+                                </label>
+
+                                <input
+                                    type="date"
+                                    class="form-control custom-input"
+                                    id="dueDate">
+
+                            </div>
+
+                        </div>
+
+                    </form>
+                    
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-primary addBtn" id="addTaskBtn">Add Task</button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="js/script.js"></script> 
+
+</body>
+</html>
